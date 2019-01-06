@@ -70,13 +70,6 @@ class Story():
 
         return {'story':story.raw, 'comments':list(map(lambda x: x.raw, kids))}
 
-    def fetch_kids(self, k_ids):
-        #kid_ids = [int(kid) for kid in k_ids]
-        kid_data = self.hn.get_items_by_ids(k_ids)
-        return list(map(lambda x: x.raw, kid_data))
-
-
-
     def save_data(self, data, obj):
         if not self.in_aws():
             with open(f"article-{self.id}.json") as f:
