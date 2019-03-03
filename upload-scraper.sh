@@ -42,7 +42,7 @@ function do_build {
 }
 
 function do_upload {
-    cd $root/scraper
+    cd $root/scraper/build
 
     if [ -z $build_name ] ; then
         echo "Error, deploy zip not found"
@@ -67,6 +67,7 @@ elif [ $1 == 'upload' ] ; then
 
 else
     do_clean
+    do_setup
     do_build
     do_upload
 fi

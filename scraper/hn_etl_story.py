@@ -8,6 +8,7 @@ import json
 from collections import deque
 
 BUCKET_NAME = os.getenv('BUCKET_NAME', 'article-cache')
+DATA_VERSION = 2
 
 class Story():
     def in_aws(self):
@@ -41,7 +42,7 @@ class Story():
 
         from botocore.exceptions import ClientError
 
-        obj = self.s3.Object(BUCKET_NAME, f"hackernews/article-{self.id}.json")
+        obj = self.s3.Object(BUCKET_NAME, f"hackernews/v{DATA_VERSION}/article-{self.id}.json")
         try:
             obj.load()
         except ClientError:
@@ -68,7 +69,8 @@ class Story():
             kids += result
             [queue.append(x.kids) for x in result if x.kids != None]
 
-        return {'story':story.raw, 'comments':list(map(lambda x: x.raw, kids))}
+        comments = [json.loads(obj.raw) for obj in kids]
+        return {'story':json.loads(story.raw), 'comments':comments}
 
     def save_data(self, data, obj):
         if not self.in_aws():

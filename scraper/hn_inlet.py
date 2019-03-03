@@ -9,9 +9,9 @@ from random import randint
 import aiohttp
 import asyncio
 
-
+AWS_ACCOUNT = os.getenv('AWS_ACCOUNT', '')
 QUEUE_NAME = os.getenv('QUEUE_NAME', 'scraper-hn-story-queue')
-QUEUE_URL = os.getenv('QUEUE_URL', 'https://sqs.us-west-2.amazonaws.com/547755016564/scraper-hn-story-queue')
+QUEUE_URL = os.getenv('QUEUE_URL', f'https://sqs.us-west-2.amazonaws.com/{AWS_ACCOUNT}/scraper-hn-story-queue')
 STORIES_URL = os.getenv('STORIES_URL', 'https://hacker-news.firebaseio.com/v0/topstories.json')
 
 class Queue():
